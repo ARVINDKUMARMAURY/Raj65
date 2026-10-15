@@ -109,10 +109,51 @@
             box-shadow: 0 0 30px #0ff;
             width: 100%;
             max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        /* Final Box Appearance Animation */
+        .stage.active .final-box {
+            animation: boxEntry 1s ease-out forwards;
+        }
+
+        @keyframes boxEntry {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .bday-img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #0ff;
+            box-shadow: 0 0 25px #0ff, inset 0 0 10px #0ff;
+            margin-bottom: 15px;
+            animation: floatImg 3s ease-in-out infinite;
+        }
+
+        @keyframes floatImg {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); box-shadow: 0 0 40px #0ff; }
+            100% { transform: translateY(0px); }
+        }
+
+        /* TORNADO SPIN ANIMATION FOR TEXT */
+        .stage.active .final-title {
+            animation: tornadoSpin 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes tornadoSpin {
+            0% { transform: scale(0) rotate(-1080deg); opacity: 0; filter: blur(10px); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0px); }
         }
 
         .final-title {
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             background: linear-gradient(90deg, #ff007f, #0ff, #ffcc00, #ff007f);
             background-size: 300%;
             -webkit-background-clip: text;
@@ -120,16 +161,34 @@
             animation: gradientMove 3s infinite linear;
             margin: 0;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            opacity: 0; /* Hidden initially, shown by animation */
         }
 
         @keyframes gradientMove { 0% { background-position: 0%; } 100% { background-position: 100%; } }
         
         .final-msg {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #fff;
             margin-top: 20px;
             text-shadow: 0 0 10px #fff;
             line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stage.active .final-msg {
+            animation: slideUpMsg 1s ease-out 1.5s forwards;
+        }
+
+        @keyframes slideUpMsg {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight-text {
+            color: #0ff;
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-transform: uppercase;
         }
 
         .glitch { animation: glitch 0.2s infinite; font-size: 2rem; }
@@ -148,7 +207,8 @@
             h2 { font-size: 1.4rem; }
             p { font-size: 1rem; }
             .countdown { font-size: 7rem; }
-            .final-title { font-size: 2.5rem; line-height: 1.2; }
+            .bday-img { width: 130px; height: 130px; }
+            .final-title { font-size: 2.2rem; line-height: 1.2; }
             .final-msg { font-size: 1rem; }
             .glitch { font-size: 1.8rem; }
             .final-box { padding: 25px 15px; }
@@ -159,42 +219,36 @@
 
     <canvas id="fireworksCanvas"></canvas>
 
-    <!-- STAGE 1 -->
     <div id="stage1" class="stage active">
         <div class="terminal-text">> SYSTEM BOOTING...</div>
-        <div class="terminal-text">> INTIALIZING: "BIRTHDAY_BOMB"</div>
+        <div class="terminal-text">> INITIALIZING: "BIRTHDAY_BOMB"</div>
         <button class="btn" onclick="triggerHackVoice(); nextStage(2)">START PROTOCOL</button>
     </div>
 
-    <!-- STAGE 2 -->
     <div id="stage2" class="stage">
         <h2 style="color: #f00;">⚠️ SYSTEM BREACH DETECTED ⚠️</h2>
         <p>Security Override in progress...</p>
         <button class="btn" onclick="nextStage(3)">PROCEED ANYWAY</button>
     </div>
 
-    <!-- STAGE 3 -->
     <div id="stage3" class="stage">
         <h2>EXTRACTING MEMORIES...</h2>
         <div class="loader-box"><div class="loader-bar" id="loaderBar"></div></div>
         <p id="loaderText">0%</p>
     </div>
 
-    <!-- STAGE 4 -->
     <div id="stage4" class="stage">
         <h1 class="glitch">TOP SECRET FILE</h1>
         <p>Highly classified document unlocked.</p>
         <button class="btn" onclick="nextStage(5)">OPEN FILE</button>
     </div>
 
-    <!-- STAGE 5 -->
     <div id="stage5" class="stage">
         <h2>DECRYPTING MESSAGE...</h2>
         <p style="max-width: 90%;">"Duniya me bohot log milte hain, par tere jaisa pagal aur mast insaan sirf ek hai. System ready for final phase..."</p>
         <button class="btn" onclick="nextStage(6)">PROCEED</button>
     </div>
 
-    <!-- STAGE 6 -->
     <div id="stage6" class="stage">
         <h1 class="glitch">WARNING! ⚠️</h1>
         <p>EXTREME LEVELS OF AWESOMENESS AHEAD.</p>
@@ -202,46 +256,38 @@
         <button class="btn" onclick="startCountdown()">BRING IT ON!</button>
     </div>
 
-    <!-- STAGE 7 to 9 (Countdown) -->
     <div id="stage7" class="stage"><div class="countdown">3</div></div>
     <div id="stage8" class="stage"><div class="countdown">2</div></div>
     <div id="stage9" class="stage"><div class="countdown">1</div></div>
 
-    <!-- STAGE 10 -->
     <div id="stage10" class="stage">
         <div class="final-box">
-            <h1 class="final-title">HAPPY<br>BIRTHDAY! 👑</h1>
-            <p class="final-msg">Level UP bhai! Ek aur saal, ek aur tabahi. Aise hi machata reh aur system hack karta reh!<br><br><b>PARTY KAB HAI? 🍕🥂</b></p>
+            <!-- Dost Ki Photo -->
+            <img src="165034.jpg" alt="Birthday Boy" class="bday-img">
+            
+            <!-- Gol Ghumta Hua Text -->
+            <h1 class="final-title">HAPPY BIRTHDAY<br>NISHAD RAJ!</h1>
+            
+            <!-- Unique Message -->
+            <p class="final-msg">
+                Duniya ka sabse bada Hacker aur mera Bhai! 🚀<br>
+                Tu koi normal insaan nahi, tu ek <span class="highlight-text">VIBE</span> hai.<br>
+                Tera system hamesha top par rahe!<br><br>
+                <b>PARTY KAB HAI? 🍕🥂</b>
+            </p>
         </div>
     </div>
 
     <script>
-        // Masti wali Voice Setting 
         function triggerHackVoice() {
             if ('speechSynthesis' in window) {
-                // Text me 'Ohhh' aur commas daale hain taki aawaz ruk-ruk ke flirty lage
-                let msg = new SpeechSynthesisUtterance("Ohhh... System is hacked... by Nishad raj.");
-                
-                // Aawaz ko slow aur thoda husky banaya hai
-                msg.pitch = 0.8;  
-                msg.rate = 0.65;  // Ekdum slow and smooth
-                msg.lang = 'hi-IN'; // Indian accent
-                
-                // System se female voice dhundhne ki koshish (Browser par depend karta hai)
-                let voices = window.speechSynthesis.getVoices();
-                let femaleVoice = voices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira'));
-                if(femaleVoice) {
-                    msg.voice = femaleVoice;
-                }
-
+                let msg = new SpeechSynthesisUtterance("System Hacked... by Nishad raj.");
+                msg.pitch = 0.1;  
+                msg.rate = 0.8;   
+                msg.lang = 'en-US'; 
                 window.speechSynthesis.speak(msg);
             }
         }
-
-        // Taki browser pehle se aawazein load kar le
-        window.speechSynthesis.onvoiceschanged = function() {
-            window.speechSynthesis.getVoices();
-        };
 
         function nextStage(targetStage) {
             document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
@@ -342,9 +388,9 @@
 
         function triggerFinale() {
             if ('speechSynthesis' in window) {
-                let msg2 = new SpeechSynthesisUtterance("Happy Birthday handsome!");
-                msg2.pitch = 0.9;
-                msg2.rate = 0.8;
+                let msg2 = new SpeechSynthesisUtterance("Happy Birthday Nishad Raj!");
+                msg2.pitch = 0.5;
+                msg2.rate = 1;
                 window.speechSynthesis.speak(msg2);
             }
 
