@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>10-Stage Ultimate Birthday 🚀</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@500;800&family=Share+Tech+Mono&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #0f0;
+            font-family: 'Share Tech Mono', monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        #fireworksCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            display: none;
+        }
+
+        .stage {
+            position: absolute;
+            width: 90%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        .stage.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        h1, h2 { margin-bottom: 20px; }
+        
+        .btn {
+            background: transparent;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px #0f0;
+            transition: 0.3s;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 30px #0f0;
+            transform: scale(1.05);
+        }
+
+        .terminal-text { font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        .loader-box { width: 80%; max-width: 300px; height: 20px; border: 2px solid #0f0; margin-top: 20px; position: relative; }
+        .loader-bar { height: 100%; background: #0f0; width: 0%; transition: width 0.1s; }
+        
+        #stage4, #stage6 { color: #f00; }
+        #stage4 .btn, #stage6 .btn { border-color: #f00; color: #f00; box-shadow: 0 0 10px #f00; }
+        #stage4 .btn:hover, #stage6 .btn:hover { background: #f00; color: #000; box-shadow: 0 0 30px #f00; }
+
+        .countdown {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10rem;
+            color: #fff;
+            text-shadow: 0 0 20px #0ff, 0 0 50px #0ff;
+            animation: popIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(3); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        #stage10 { font-family: 'Orbitron', sans-serif; }
+        
+        .final-box {
+            background: rgba(0,0,0,0.8); 
+            padding: 30px 20px; 
+            border-radius: 20px; 
+            border: 2px solid #0ff; 
+            box-shadow: 0 0 30px #0ff;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .final-title {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #ff007f, #0ff, #ffcc00, #ff007f);
+            background-size: 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 3s infinite linear;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes gradientMove { 0% { background-position: 0%; } 100% { background-position: 100%; } }
+        
+        .final-msg {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 20px;
+            text-shadow: 0 0 10px #fff;
+            line-height: 1.6;
+        }
+
+        .glitch { animation: glitch 0.2s infinite; font-size: 2rem; }
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        @media (max-width: 600px) {
+            .terminal-text { font-size: 1.1rem; }
+            .btn { font-size: 1rem; padding: 12px 20px; }
+            h2 { font-size: 1.4rem; }
+            p { font-size: 1rem; }
+            .countdown { font-size: 7rem; }
+            .final-title { font-size: 2.5rem; line-height: 1.2; }
+            .final-msg { font-size: 1rem; }
+            .glitch { font-size: 1.8rem; }
+            .final-box { padding: 25px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- STAGE 1 -->
+    <div id="stage1" class="stage active">
+        <div class="terminal-text">> SYSTEM BOOTING...</div>
+        <div class="terminal-text">> INTIALIZING: "BIRTHDAY_BOMB"</div>
+        <button class="btn" onclick="triggerHackVoice(); nextStage(2)">START PROTOCOL</button>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div id="stage2" class="stage">
+        <h2 style="color: #f00;">⚠️ SYSTEM BREACH DETECTED ⚠️</h2>
+        <p>Security Override in progress...</p>
+        <button class="btn" onclick="nextStage(3)">PROCEED ANYWAY</button>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div id="stage3" class="stage">
+        <h2>EXTRACTING MEMORIES...</h2>
+        <div class="loader-box"><div class="loader-bar" id="loaderBar"></div></div>
+        <p id="loaderText">0%</p>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div id="stage4" class="stage">
+        <h1 class="glitch">TOP SECRET FILE</h1>
+        <p>Highly classified document unlocked.</p>
+        <button class="btn" onclick="nextStage(5)">OPEN FILE</button>
+    </div>
+
+    <!-- STAGE 5 -->
+    <div id="stage5" class="stage">
+        <h2>DECRYPTING MESSAGE...</h2>
+        <p style="max-width: 90%;">"Duniya me bohot log milte hain, par tere jaisa pagal aur mast insaan sirf ek hai. System ready for final phase..."</p>
+        <button class="btn" onclick="nextStage(6)">PROCEED</button>
+    </div>
+
+    <!-- STAGE 6 -->
+    <div id="stage6" class="stage">
+        <h1 class="glitch">WARNING! ⚠️</h1>
+        <p>EXTREME LEVELS OF AWESOMENESS AHEAD.</p>
+        <p>WEAR SUNGLASSES BEFORE CLICKING.</p>
+        <button class="btn" onclick="startCountdown()">BRING IT ON!</button>
+    </div>
+
+    <!-- STAGE 7 to 9 (Countdown) -->
+    <div id="stage7" class="stage"><div class="countdown">3</div></div>
+    <div id="stage8" class="stage"><div class="countdown">2</div></div>
+    <div id="stage9" class="stage"><div class="countdown">1</div></div>
+
+    <!-- STAGE 10 -->
+    <div id="stage10" class="stage">
+        <div class="final-box">
+            <h1 class="final-title">HAPPY<br>BIRTHDAY! 👑</h1>
+            <p class="final-msg">Level UP bhai! Ek aur saal, ek aur tabahi. Aise hi machata reh aur system hack karta reh!<br><br><b>PARTY KAB HAI? 🍕🥂</b></p>
+        </div>
+    </div>
+
+    <script>
+        // AI Voice Generator Function
+        function triggerHackVoice() {
+            if ('speechSynthesis' in window) {
+                let msg = new SpeechSynthesisUtterance("System Hacked by Nishad raj");
+                msg.pitch = 0.2;  // Deep robotic voice
+                msg.rate = 0.85;  // Slightly slow to sound dramatic
+                msg.lang = 'en-IN'; // Indian English accent
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        function nextStage(targetStage) {
+            document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
+            document.getElementById('stage' + targetStage).classList.add('active');
+
+            if (targetStage === 3) {
+                let progress = 0;
+                let bar = document.getElementById('loaderBar');
+                let txt = document.getElementById('loaderText');
+                let interval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 15) + 5;
+                    if(progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        setTimeout(() => nextStage(4), 500); 
+                    }
+                    bar.style.width = progress + '%';
+                    txt.innerText = progress + '%';
+                }, 200);
+            }
+        }
+
+        function startCountdown() {
+            nextStage(7);
+            setTimeout(() => nextStage(8), 1000);
+            setTimeout(() => nextStage(9), 2000);
+            setTimeout(() => {
+                nextStage(10);
+                triggerFinale();
+            }, 3000);
+        }
+
+        // Fireworks Engine
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let fireworksActive = false;
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.radius = Math.random() * 3 + 1;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 10 + 3;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.friction = 0.94; this.gravity = 0.1;
+                this.alpha = 1; this.decay = Math.random() * 0.015 + 0.01;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+            update() {
+                this.vx *= this.friction; this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx; this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+        }
+
+        const fColors = ['#ff007f', '#0ff', '#ffcc00', '#0f0', '#9d00ff'];
+
+        function explode(x, y, count = 80) {
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y, fColors[Math.floor(Math.random() * fColors.length)]));
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                if (p.alpha <= 0) particles.splice(i, 1);
+                else { p.update(); p.draw(); }
+            }
+
+            if (fireworksActive && Math.random() < 0.08) {
+                explode(Math.random() * canvas.width, Math.random() * canvas.height * 0.5, 40);
+            }
+            requestAnimationFrame(animate);
+        }
+
+        function triggerFinale() {
+            if ('speechSynthesis' in window) {
+                let msg2 = new SpeechSynthesisUtterance("Happy Birthday!");
+                msg2.pitch = 1;
+                msg2.rate = 1;
+                window.speechSynthesis.speak(msg2);
+            }
+
+            canvas.style.display = 'block';
+            fireworksActive = true;
+            animate();
+            
+            setTimeout(() => explode(canvas.width/2, canvas.height/2, 200), 100);
+            setTimeout(() => explode(canvas.width/4, canvas.height/3, 150), 500);
+            setTimeout(() => explode(canvas.width*0.75, canvas.height/3, 150), 800);
+        }
+    </script>
+</body>
+</html>
